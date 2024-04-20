@@ -51,6 +51,6 @@ b second is we actually install all the module we needed.
 
 2. Most basic tool is the console.log() for dubgging
 3. but the better is node debugger and that is node built in debugging tool which integrates with v8 and chrome browser
-4. if we want to pause program we use a debugger that gonna stop the application at this point
+4. if we want to pause program we use a debugger in program that gonna stop the application at this point
 5. when we have the debugger in our application they are not going to pause the program by default,we have to run node with a special option to get that done command: node inspect app.js add.js add --title="hello" --body="nice"
-   6.node debugger its using the built in the v8 debugger tool.
+   6.node debugger its using the built in the v8 debugger tool. 7. we open the chrome://inspect

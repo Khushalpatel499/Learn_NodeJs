@@ -10,7 +10,7 @@ const getNotes = () => "Your Notes..";
 // for add new notes
 const addNote = function (title, body) {
   //in starting we dont have data file and we don't have any code to read or write from the file system.
-  //   first we hav to do is load in the existing notes
+  //   first we have to do is load in the existing notes
   //   we dont want to override the data ,we want to load in the existing one stored as jason
 
   const notes = loadNotes();
