@@ -88,3 +88,11 @@ add(1, 4, (sum) => {
   console.log(sum);
 });
 //we seen it used with set time now to simulate the asynchronous process.
+
+//now we are going to create the htttp request inside of the function.
+// it allow us to do make it easy to create code that is reusable and easy to maintain by having separate functions we can call,we can run this code as many times as we need without copying it over and over again.
+// other thing is that it's going to make it much easier to do one thing before or after something else.
+// in our case we first geocode the address then i want to take the output the latitude and longitude and use that to fetch the weather.
+//we could do this without creating our own functions but it would be pretty terrible
+//in app.js we have two separate request which are currently not communicating with one another
+// fix by creating the function.
