@@ -48,12 +48,14 @@ const geocode = require("./utils/geocode");
 const forecast = require("./utils/forecast");
 
 const url =
-  "https://api.darksky.net/forecast/9d1465c6f3bb7a6c71944bdd8548d026/37.8267,-122.4233?units=si&lang=es";
+  // "https://api.darksky.net/forecast/9d1465c6f3bb7a6c71944bdd8548d026/37.8267,-122.4233?units=si&lang=es";
+  "https://api.pirateweather.net/forecast/KCoUwv8rF6Kk1MxgaQuHXvjaeIggoTQv/37.8267,-122.4233?units=si&lang=es";
 
 // use request function to make request provide two arguments,the first is an option object which outline what we like to do that where we provide the url and other information
 // the second argument is a function to run once we actually have that response
-
+//there are chrome extension to see nice formatted data chrome extension json formattor
 request({ url: url, json: true }, (error, response) => {
+  //if we use json : true then we don't need to parse the response.body because it automatically parse and convert into an object.
   //   const data = JSON.parse(response.body);
   //   console.log(data.currently);
   // here the condition if we are not connected to internet then error handling but what when we have bad coordinates then we indeed get a response with two properties code and error and we need to add a little bit of defensive programming to make sure we print a useful error message to the user in this situation.
@@ -155,6 +157,7 @@ request({ url: geocodeURL, json: true }, (error, response) => {
 //   //now the entire url is going to be static except the one piece where the address goes
 //   //remove the address and go to use single quotes and make a + operator and it divide it into two string and put the address between them. with pass this address through a function called encodeURIComponet();
 //   // this function return a string and that going to get placed in url.
+// we can put address directly but use the function because if some one use special characters that encode in function.
 
 //   request({ url: url, json: true }, (error, response) => {
 //     //the goal is to create the function highly usable so when someone calls geo code they might want to do sommething different
@@ -228,20 +231,23 @@ const address = process.argv[2];
 if (!address) {
   console.log("Please provide an Address");
 } else {
-  geocode(address, (error, data) => {
+  // geocode(address, (error, data) => {
+  geocode(address, (error, { latitude, longitude, location }) => {
     if (error) {
       return console.log(error);
     }
     // console.log("Error", error);
     // console.log("Data", data);
-    forecast(data.latitude, data.longitude, (error, forecastData) => {
+    // forecast(data.latitude, data.longitude, (error, forecastData) => {
+    forecast(latitude, longitude, (error, forecastData) => {
       if (error) {
         return console.log("Error", error);
       }
       // console.log("Error", error);
 
       // console.log("Data", forecastData);
-      console.log(data.location);
+      // console.log(data.location);
+      console.log(location);
       console.log(forecastData);
     });
   });
@@ -254,3 +260,10 @@ if (!address) {
 //2. Use the string value as the input for gecode
 //3. Only geocode if a location was provided
 //4. Test your work with a couple locations.
+
+// features of es6 that make much easier to workk with objects when it comes to creating objects
+
+//Goal: Use both destructuring and property shorthand in weahter app
+//1.use destructuring in app.js forecast.js and geocode.js
+//2.Use property shorthand in forecast.js and geocode.js
+//3.Test your work and ensure app still work
