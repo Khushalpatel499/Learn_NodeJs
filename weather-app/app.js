@@ -267,3 +267,26 @@ if (!address) {
 //1.use destructuring in app.js forecast.js and geocode.js
 //2.Use property shorthand in forecast.js and geocode.js
 //3.Test your work and ensure app still work
+
+//now use http request to an url without using the request npm library.
+// now we explore how we can make request using the modules that node provides.
+
+// next section: so far all of the application we have create have only been accessible via the command line interface
+// but it is not realsatic to user to do that.
+// it could be nicer if they could just pull up a url in browser to view and interact with our application.
+// so in section we do that by using one of the most popular npm libarary out there that is express.
+// Express make it really easy to create a web server thats going to allow us to serve up our website assest such as html we want to show on the screen using Express.
+//using Express we also able to serve up some Json data allowing us to convert the location into  a forecast that can be rendered to the screen .
+// now we going to create and run your very first nodejs based server
+// this is going to offer users an entirely new way to interact with your applications instead of to run commands from the terminal to interact with your app.
+// they will able to visit url
+// suppose i m tryping to create a portfolio website to show off my work, i  can create a node serve that serves up all of the assest the browser would nedd to load, this include html ,css , the page client side js and may be some images of my work.
+// now we could also take the other apporach with the server and instead of serving up a website we could serve up an http json based api.
+// that would be similar to the map box or the dark sky api where we are exchanging json data back and forth with the server.
+// first we create web servers then create http based api with database storage, authentication , email sending and more.
+// Express made it so easy to create web servers wheather you wanted to serve up something like a static web site or wheather you wnated to create a complex http json based api to serve as the backend for something.
+// now i webserver we need to initialize npm so we can install express
+// npm i express@4.16.4
+// now we focus on actually creating a nodejs script that will create configure and start up the server.
+// create a subdirectory called src and here we gonna end up putting all of our nodejs scripts
+// instead of having them in the root of the project like we did with the notes app and weather app
