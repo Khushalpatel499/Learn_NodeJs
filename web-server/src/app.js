@@ -7,12 +7,70 @@
 
 const path = require("path");
 const express = require("express");
+const { title } = require("process");
+const hbs = require("hbs");
+const { kMaxLength } = require("buffer");
 
 const app = express();
 
+//setting handlebars
+
+//define paths for express config
 const publicDirectoryPath = path.join(__dirname, "../public");
+const viewPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
+
+//setup handlebars engine and views location
+app.set("view engine", "hbs");
+app.set("views", viewPath);
+hbs.registerPartials(partialsPath);
+
+//setup static directory to serve
 // app.use(express.static(path.join(__dirname, "../public")));
-app.use(express.static(publicDirectoryPath));
+// app.use(express.static(publicDirectoryPath));
+
+app.get("", (req, res) => {
+  // res.render("index");
+  res.render("index", {
+    title: "weather app",
+    name: "Khushal Patel",
+  });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", {
+    title: "About Me",
+    name: "Khushal Patel",
+  });
+});
+
+app.get("/help", (req, res) => {
+  res.render("help", {
+    message: "Thank you for coming to this page.",
+    title: "help",
+    name: "khushal Patel",
+  });
+});
+
+app.get("/help/*", (req, res) => {
+  // res.send("Help article not found");
+  res.render("404", {
+    title: "404",
+    name: "Khushal Patel",
+
+    errorMessage: "Help article not Found",
+  });
+});
+
+app.get("*", (req, res) => {
+  // res.send("404 page");
+  res.render("404", {
+    title: "404",
+    name: "Khushal Patel",
+
+    errorMessage: "Page not Found",
+  });
+});
 // imagine we owned the following domain app.com
 //now obviously when someone vist app.com we wnat to show them something maybe the home page of our company website
 //but we gonna have other pages as well like app.com/help or app.com/about
@@ -192,3 +250,108 @@ console.log(path.join(__dirname, "../public"));
 // which is npm hbs
 // hbs uses handlerbars behind the scene
 //hbs make easy to integrate with express.
+//install it and it add all code to node_modules and dependencies to package.json and package-lock.json.
+// now the process of getting set up is actually really easy.all we need to do is tell express which templating engine we installed and we do that by using a new method on that is app.set,set allow us to set a value for a given express setting
+//we have a key setting name and a value.(the value we want to set for the setting in our case to set up a view engine like express the value is view engine)
+//it is important that its this match up exactly with the spacing and capitalization taken into account. if we don't save exactly express isn't going to know what we are trying to do.
+// the value we used is the name of module we installed in our case is hbs
+// this single line only nedd to get handlebars set up.
+//now we use this to create some dynamics templates.
+//our handlebars templates to live in a specific folder that is in the root of the project. the folder is views. here we put our handlebars views.
+//we are going to create view that replace the home page,
+//so instead of the home page being a static document served up from public its going to be a handlebars templates.
+// i create index.hbs which is handlebars extension.(handlebars files nothing more than html with nice features for injecting dynamics values)
+// now no one can acess this page from our webserver. for that we need to set up a route.
+// so that is app.get() we gonna show this on home page so leave first empty, and second with function of res and req.
+//before we use res.send to send back response but now we used res.render it allow us to render one of our views.
+//we configure express to use view engine hbs ,with renders we can render one of our handlebars.
+// we do is provide as the first argument the name of the paritcular view we want to use inside the quotes and no need to provide the file extension.
+// now for dynamic view we gonna provide a value for the title.
+//so instead of hardcoding in file it is provided by nodejs.
+// so to provide a value that accessible in the template we have to provide a seccond argument to render.
+//so second argument is an object which contains all of the values we want that view to be able to access.
+// let i provide name and title both values to inject into template. template take advantages of them and that what going to create the dynamic html documents.
+// to use title and name which create in node js in handlebars we used syntax of handlebars.
+//if we want to inject an value in hbs file we open and close two curly braces.
+//inside reference the thing trying to access , which title and name
+
+//Goal: Create a template for help page
+
+//1. Setup a help template to render a help message to the screen
+//2. Setup the help route and render the template with an example message
+//3. visit the route in the browser and see your help message print
+
+//now we see how we customize how handlebars is setup.
+// how customize the location and name of the views directory.
+//if we change the name of folder of views to other it fail because it is the default location that express expects your views to live in.
+// we can cutosmize it but we have to tell express where to look.
+// this is going to require us to create a brand new path.
+// it is similar to how we defined public directory path.
+// diefine a views path and set this equal to an absolue path to that views folder which i changed the name.
+// after that we tell express by an another app.set call.
+//let i change the views folder to templates.
+// similary we can customized it location.
+// now we organized our express configuration.
+
+//now we see more about express documentation
+//we have express function to generate a new instance of the application.
+// we have application ,this refers to our app variable
+//then we have request, response and router.
+// request and response objects that are callback for a route get passed.
+
+//now we see partials with handlebars
+//partials allow us to create a little template which is part of a bigger web page.
+// parts of web pages that we are gonna reuse across multiple pages.
+//the first thing we have to do work with partials is actually load in hbs for the first time and configure it.
+// after load we need to tell handle bar where are going to put our partials.
+//these are also files with an hbs extension similar to before.
+//inside the templates dir we going to put two dir inside.
+// one we called views and other we called partials.
+// so the three files about,help,index go into views and for that we also change the views path.
+// now we can tell hbs that we are going to put our partials in partial dir.
+// we create another path for partials.
+//now to congfigure it, use hbs.registerPartials() ,it take a path of dir where your partial lives.
+// now create a partial header.hbs ,this is a header that we are gonna show on all of the pages throught out our site. inside it also a complete html documentation.
+// first create static title in partial then use dynamic title inside of partials
+//now render the partial in our pages.
+// to render use {{>}} after the greater than sign provide the partial name which is the file name.
+//but when we save we got error that partial header could not be found.
+// error because nodemon moniotor only js extension file not with handlebars templates.
+//if server doesn't restart when new templates are creted the server is never going to pick up on that.
+//we can easily address this by customzing our node commands.
+// we make a small tweak to the command we have been running so far.
+// command: nodemon src/app.js -e js,hbs (e is short for extension .this allow us to provide after the space a comma separated list of extension that nodeman should watch)
+// currently we have three page with each one their h1, we do that remove those and have that rendered in the header instead.
+// add header on all pages.
+
+//so now instead of displaying this static text is to grab the title value .
+// now instead of static text we going to reference the title inside .
+//now that we have the header in place we can add stuff inside of this file that we want to show on every page like navigation page with links that allow us to switch between the pages
+//use a partial makes it really easy to set something up once and use it everywhere.
+//partials can be used throughout to application to make it really easy to render the same thing over and over again.
+
+//Goal: Create a partial for the footer
+//
+
+//1. Setup the template for the footer partial "created by some Name"
+//2.Render the partial at the bottom of all three pages
+//3.Test your work by visiting all three pages.
+
+// now see how to set  up a 404 page for your express server.
+//so instead of showing cannot get error we could even include links back to the home page so they can find the page that actually does exist.
+// for 404 page set we customized our express application by set another route handler using app.get, and the string that is no one explict match that is everythink else ,express use wild card character *.
+
+//why app.get(*) come last after all other routes are setup?
+// this has to do with how express is going to end up matching the incoming request with correct route handler
+// when nothing match and it come to wildcard character it say everything match .
+
+//Goal : Create and render a 404 page with handlebars
+//1 Setup the template to render the header and footer.
+//2. setup the template to render an error message in a paragraph.
+//3. Render the template for both 404 routes.
+//- Page not found.
+//- Help article not found.
+//4.test your work./what and /help/units
+
+//now learn how our web application communicate with the web server to get some data
+//we learn how to create own http jason end point using express.
