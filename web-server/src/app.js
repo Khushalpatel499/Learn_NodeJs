@@ -27,7 +27,7 @@ hbs.registerPartials(partialsPath);
 
 //setup static directory to serve
 // app.use(express.static(path.join(__dirname, "../public")));
-// app.use(express.static(publicDirectoryPath));
+app.use(express.static(publicDirectoryPath));
 
 app.get("", (req, res) => {
   // res.render("index");
@@ -52,6 +52,33 @@ app.get("/help", (req, res) => {
   });
 });
 
+app.get("/weather", (req, res) => {
+  if (!req.query.address) {
+    return res.send({
+      error: "you must provide the address",
+    });
+  }
+
+  res.send({
+    forecast: "It is snowing",
+    location: "India",
+    address: req.query.address,
+  });
+});
+
+app.get("/products", (req, res) => {
+  if (!req.query.search) {
+    return res.send({
+      error: "You must provide the search term",
+    });
+  }
+
+  console.log(req.query);
+  // console.log(req.query.search);
+  res.send({
+    products: [],
+  });
+});
 app.get("/help/*", (req, res) => {
   // res.send("Help article not found");
   res.render("404", {
@@ -355,3 +382,29 @@ console.log(path.join(__dirname, "../public"));
 
 //now learn how our web application communicate with the web server to get some data
 //we learn how to create own http jason end point using express.
+
+// we know about how the browser send the address to route for that we need to know the query string.
+// the server will read the query string value to get the address information.
+//we create a url that send back json
+// if we want to implement some sort of features we would use a query string and query string provided on the end of the url ,we start them off with a question mark.
+//then we provide the key value pair to pass additional information.
+// let the for eccommerce the key value may be like the search =games.
+// when we press the enter with the key value pair it going to fire off another request to our express server with the additinal information.
+// since we are creating backend we can choose to support as many or few query string option.
+// we can support 0,1, or 30 in above case we pass 1 alone.
+//for more query we can separte them using & .
+// now we passes the information to server now the question is that how server actually get that information.
+
+// our information is available inside our express route handler.
+// the information of query string that live in the request.
+//the req object has a query property and query is also an object and this contain all of the query string information
+
+//http requests have a single request that goes to the server and a single response that come back.
+// when you see cannot set headers after they are sent to the client it come when you send two response back.
+
+//Goal: Update weather endpoint to accept address
+//
+//1. No address? sent back an error message.
+//2. Address? send back the static JSON
+//        Add address property onto JSON which returns the provided address
+//3. Test /weather and /weather?address=philadelphia
