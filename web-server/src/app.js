@@ -11,6 +11,10 @@ const { title } = require("process");
 const hbs = require("hbs");
 const { kMaxLength } = require("buffer");
 
+const request = require("request");
+const geocode = require("./utils/geocode");
+const forecast = require("./utils/forecast");
+
 const app = express();
 
 //setting handlebars
@@ -59,11 +63,31 @@ app.get("/weather", (req, res) => {
     });
   }
 
-  res.send({
-    forecast: "It is snowing",
-    location: "India",
-    address: req.query.address,
-  });
+  // res.send({
+  //   forecast: "It is snowing",
+  //   location: "India",
+  //   address: req.query.address,
+  // });
+  geocode(
+    req.query.address,
+    (error, { latitude, longitude, location } = {}) => {
+      if (error) {
+        return res.send({ error });
+      }
+
+      forecast(latitude, longitude, (error, forecastData) => {
+        if (error) {
+          return res.send({ error });
+        }
+
+        res.send({
+          forecast: forecastData,
+          location,
+          address: req.query.address,
+        });
+      });
+    }
+  );
 });
 
 app.get("/products", (req, res) => {
@@ -408,3 +432,18 @@ console.log(path.join(__dirname, "../public"));
 //2. Address? send back the static JSON
 //        Add address property onto JSON which returns the provided address
 //3. Test /weather and /weather?address=philadelphia
+
+// we already created end point and alredy return the code of geo code and address and get the forcast from the geo coding output.
+//we copy the utils files and paste to webserver of src folder.
+//we know that these two files required npm request module , afterthat we can use both geocode and forecast inside of our callback to get the correct forecast
+
+//Goal: Wire up./weather
+//
+//1. Require geocode/forecase into app.js
+//2. Use the address to geocde
+//3. Use the coordinates to get forecast
+//4. Send back the real forecast and location
+
+//es6 new features default parameterss syntax and that going to allow us to set a default value for a funtion parameter should no argument be passed in.
+
+//h for default parmater if we pass any random to address and it not have laltitude and other then it give error and give cannot destruture

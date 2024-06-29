@@ -43,10 +43,14 @@ console.log(rating);
 //we can also do destructring when working with function arguments.
 
 // const transaction = (type, myProduct) => {
-const transaction = (type, { label, stock }) => {
+const transaction = (type, { label, stock = 0 } = {}) => {
   //   const { label } = myProduct;
   //instead of above we can destructure argument in argument list.
   console.log(type, label, stock);
 };
 
 transaction("order", product);
+
+// if we pass no parameter in destrcuting then it give undefined which give error that we cannot destructre undefined or null.
+//to fix this we can set a default value for that parameter equal to an empty object.
+//from this we provide default object and also we can set that value also.
