@@ -446,4 +446,16 @@ console.log(path.join(__dirname, "../public"));
 
 //es6 new features default parameterss syntax and that going to allow us to set a default value for a funtion parameter should no argument be passed in.
 
-//h for default parmater if we pass any random to address and it not have laltitude and other then it give error and give cannot destruture
+// for default parmater if we pass any random to address and it not have laltitude and other then it give error and give cannot destruture
+
+// now see how to make http request for that forecast data from client side js in browser that going to allow us to create a form submit it fetch the data
+// we are going to use fetch api that is not part of js, it is a browser based API which means it something we can use in all modern browsers but it not accessible in node js .
+// we are gonna explore the fetch api by working with a dummy adjacent endpoint.
+// fetch is a function so we are going to call it as such and we pass to it a string, that is the url we trying to fetch.
+// it going to kick off an asynchronous io opertaion much like calling request in nodejs
+//means we don't have access to the data right away, instead we provide a function and that function will run at some point in the future when data is availble.
+// now with request function in node we pass a callback as the second argument to the function
+// but with fetch api instead we use the then method on the return value from fetch and we provide to it the callback function, and access to the resopnse as the first argument and only argument to extract and render the data it to the browser or just dump it to the console.
+//Then method is part of a mcuh bigger API we will exploring later in the class known as promises.
+// to render we use response.json() which we are going to call as a function with then and this function is going to run when the json data has arrived and been passed.
+// using few lines of code we were able to fetch jason data from a url pass it into a js object and to do something with it.
